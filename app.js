@@ -214,9 +214,107 @@ function PerformanceChart({ trades, theme }) {
   return <div className="chart-card-canvas"><canvas id="performanceChart" ref={canvasRef}></canvas></div>;
 }
 
+function MarketPulseCard() {
+  const [analysis, setAnalysis] = useState({
+    fearGreedIndex: 68,
+    sentiment: 'تفاؤل (طمع)',
+    historicalProb: 75,
+    trending: ['الذهب', 'أرامكو', 'تاسي'],
+    aiSummary: 'يظهر المتداولون تفاؤلاً ملحوظاً اليوم مع زيادة في أحجام السيولة الداخلة لقطاع البنوك، مما يدعم احتمالات الصعود.'
+  });
 
+  const getStatusColor = (val) => {
+    if (val > 70) return 'text-green'; 
+    if (val < 30) return 'text-red';   
+    return 'text-accent';              
+  };
 
+  return (
+    <section className="panel market-pulse-panel">
+      <div className="panel-header">
+        <div>
+          <div className="panel-title">📡 رادار القرار الذكي</div>
+          <div className="panel-subtitle">تحليل المشاعر + الاحتمالات التاريخية عبر AI</div>
+        </div>
+      </div>
+      <div className="panel-body">
+        <div className="sentiment-gauge-container">
+          <div className="gauge-value" style={{ color: getStatusColor(analysis.fearGreedIndex) }}>
+            {analysis.fearGreedIndex}
+          </div>
+          <div className="gauge-label">مؤشر الخوف والطمع</div>
+        </div>
 
+        <div className="pulse-grid">
+          <div className="pulse-card">
+            <div className="pulse-label">الاحتمالية التاريخية</div>
+            <div className="pulse-value text-green">{analysis.historicalProb}%</div>
+          </div>
+          <div className="pulse-card">
+            <div className="pulse-label">المزاج العام</div>
+            <div className="pulse-value">{analysis.sentiment}</div>
+          </div>
+        </div>
+
+        <div className="pulse-reasons">
+          <div className="pulse-label" style={{ marginBottom: '8px' }}>🚀 الأكثر مراقبة الآن</div>
+          <div className="chip-group">
+            {analysis.trending.map(item => (
+              <span key={item} className="tag long" style={{cursor: 'default'}}>{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="pulse-note" style={{ borderLeft: '3px solid var(--accent)' }}>
+          <strong>توجيه AI:</strong> {analysis.aiSummary}
+        </div>
+      </div>
+    </section>
+  );
+}
+function HistoricalAnalysisCard({ symbolTitle }) {
+  // بيانات إحصائية محاكية بناءً على الأصل المختار
+  const statsData = {
+    'S&P 500': { prob: 72, pattern: 'ارتداد من المتوسط 50', times: '18/25' },
+    'تاسي': { prob: 65, pattern: 'فجوة سعرية صاعدة', times: '13/20' },
+    'الذهب': { prob: 78, pattern: 'كسر مقاومة يومية', times: '11/14' },
+    'default': { prob: 60, pattern: 'نمط فني متكرر', times: '12/20' }
+  };
+
+  const currentStats = statsData[symbolTitle] || statsData['default'];
+
+  return (
+    <section className="panel historical-analysis-panel">
+      <div className="panel-header">
+        <div>
+          <div className="panel-title">⏳ آلة الزمن (الاحتمالات)</div>
+          <div className="panel-subtitle">تحليل السلوك التاريخي لـ {symbolTitle}</div>
+        </div>
+      </div>
+      <div className="panel-body">
+        <div className="prob-display">
+          <div className="prob-value text-green">{currentStats.prob}%</div>
+          <div className="prob-label">نسبة نجاح النمط تاريخياً</div>
+        </div>
+        
+        <div className="analysis-details">
+          <div className="detail-item">
+            <span className="detail-label">النمط المكتشف:</span>
+            <span className="detail-value">{currentStats.pattern}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">تكرار النجاح:</span>
+            <span className="detail-value">{currentStats.times} مرة</span>
+          </div>
+        </div>
+
+        <div className="pulse-note" style={{marginTop: '15px', background: 'var(--accent-soft)'}}>
+           بناءً على آخر 10 سنوات، هذا النمط أعطى نتائج إيجابية في معظم الحالات المشابهة للوضع الحالي.
+        </div>
+      </div>
+    </section>
+  );
+}
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem(STORAGE_KEYS.theme) || 'dark');
   const [symbol, setSymbol] = useState(localStorage.getItem(STORAGE_KEYS.symbol) || 'AMEX:SPY');
@@ -455,6 +553,7 @@ function App() {
 
           <div className="stack">
             <MarketPulseCard />
+            <HistoricalAnalysisCard symbolTitle={symbolTitle} /> {/* إضافة هذه السطر هنا */}
             <section className="panel">
               <div className="panel-header"><div><div className="panel-title">⚖️ إدارة المخاطر</div><div className="panel-subtitle">حساب الكمية، العائد/المخاطرة، والربح المتوقع</div></div></div>
               <div className="panel-body">

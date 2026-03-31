@@ -196,3 +196,71 @@ tr:hover td { background: rgba(255,255,255,.02); }
 .pulse-note { margin-top: 14px; font-size: 0.88rem; color: var(--muted); line-height: 1.8; background: rgba(255,255,255,0.02); border: 1px dashed var(--border); border-radius: 12px; padding: 12px; }
 .app-footer-version { margin: 16px auto 20px; max-width: 980px; color: var(--muted); text-align: center; font-size: .92rem; }
 .app-footer-version .pill { display: inline-flex; gap: 8px; align-items: center; padding: 8px 12px; border: 1px solid rgba(128,128,128,.25); border-radius: 999px; background: rgba(255,255,255,.04); }
+
+/* تنسيقات رادار القرار الجديد */
+.sentiment-gauge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  margin-bottom: 15px;
+  border: 1px solid var(--border);
+}
+
+.gauge-value {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(41, 98, 255, 0.2);
+}
+
+.gauge-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 5px;
+  letter-spacing: 1px;
+}
+
+.pulse-note strong {
+  display: block;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+/* تنسيقات آلة الزمن */
+.prob-display {
+  text-align: center;
+  padding: 15px;
+  background: var(--bg-soft);
+  border-radius: var(--radius-sm);
+  margin-bottom: 15px;
+  border: 1px dashed var(--border);
+}
+
+.prob-value {
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
+.prob-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.analysis-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-label { color: var(--muted); }
+.detail-value { font-weight: 700; color: var(--text); }

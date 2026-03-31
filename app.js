@@ -214,87 +214,8 @@ function PerformanceChart({ trades, theme }) {
   return <div className="chart-card-canvas"><canvas id="performanceChart" ref={canvasRef}></canvas></div>;
 }
 
-function MarketPulseCard() {
-  const [trend, setTrend] = useState('up');
-  const [volatility, setVolatility] = useState('medium');
-  const [events, setEvents] = useState('normal');
 
-  const result = useMemo(() => {
-    let score = 50;
-    if (trend === 'up') score += 20;
-    if (trend === 'down') score -= 20;
-    if (volatility === 'high') score -= 10;
-    if (volatility === 'low') score += 5;
-    if (events === 'important') score -= 10;
-    if (events === 'quiet') score += 5;
-    let state = 'محايد / متذبذب';
-    let tone = 'neutral';
-    let risk = 'متوسط';
-    if (score >= 65) { state = 'إيجابي بحذر'; tone = 'positive'; }
-    else if (score <= 35) { state = 'سلبي بحذر'; tone = 'negative'; }
-    if (volatility === 'high' || events === 'important') risk = 'مرتفع';
-    else if (volatility === 'low' && events === 'quiet') risk = 'منخفض';
-    const reasons = [];
-    if (trend === 'up') reasons.push('الاتجاه الحالي صاعد');
-    if (trend === 'down') reasons.push('الاتجاه الحالي هابط');
-    if (trend === 'sideways') reasons.push('الحركة الحالية جانبية');
-    if (volatility === 'high') reasons.push('التذبذب مرتفع');
-    if (volatility === 'medium') reasons.push('التذبذب متوسط');
-    if (volatility === 'low') reasons.push('التذبذب منخفض');
-    if (events === 'important') reasons.push('توجد أحداث مؤثرة');
-    if (events === 'normal') reasons.push('الأحداث ضمن الوضع الطبيعي');
-    if (events === 'quiet') reasons.push('لا توجد أحداث قوية الآن');
-    const confidence = Math.max(35, Math.min(85, score));
-    return { state, tone, risk, confidence, reasons };
-  }, [trend, volatility, events]);
 
-  return (
-    <section className="panel market-pulse-panel">
-      <div className="panel-header">
-        <div>
-          <div className="panel-title">📡 حالة السوق</div>
-          <div className="panel-subtitle">قراءة معلوماتية متغيرة حسب الحالة الحالية</div>
-        </div>
-      </div>
-      <div className="panel-body">
-        <div className={`pulse-badge ${result.tone}`}>{result.state}</div>
-        <div className="pulse-grid">
-          <div className="pulse-card"><div className="pulse-label">مستوى الثقة</div><div className="pulse-value">{result.confidence}%</div></div>
-          <div className="pulse-card"><div className="pulse-label">مستوى المخاطرة</div><div className="pulse-value">{result.risk}</div></div>
-        </div>
-        <div className="field" style={{ marginTop: '14px' }}>
-          <label>الاتجاه الحالي</label>
-          <select value={trend} onChange={(e) => setTrend(e.target.value)}>
-            <option value="up">صاعد</option>
-            <option value="down">هابط</option>
-            <option value="sideways">جانبي</option>
-          </select>
-        </div>
-        <div className="field">
-          <label>التذبذب</label>
-          <select value={volatility} onChange={(e) => setVolatility(e.target.value)}>
-            <option value="low">منخفض</option>
-            <option value="medium">متوسط</option>
-            <option value="high">مرتفع</option>
-          </select>
-        </div>
-        <div className="field">
-          <label>الأحداث / الأخبار</label>
-          <select value={events} onChange={(e) => setEvents(e.target.value)}>
-            <option value="quiet">هادئة</option>
-            <option value="normal">طبيعية</option>
-            <option value="important">مؤثرة</option>
-          </select>
-        </div>
-        <div className="pulse-reasons">
-          <div className="pulse-label" style={{ marginBottom: '8px' }}>سبب القراءة</div>
-          <ul>{result.reasons.map((reason, index) => <li key={index}>{reason}</li>)}</ul>
-        </div>
-        <div className="pulse-note">هذه قراءة مساعدة فقط وليست توصية دخول أو خروج.</div>
-      </div>
-    </section>
-  );
-}
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem(STORAGE_KEYS.theme) || 'dark');
